@@ -282,10 +282,6 @@ class File_Manager:
     """
     负责文件的读/写:
     """
-    """
-    def __init__(self):
-	pass
-    """
     def read_init(self, file_path, confg_path):
         file = self.read_file(file_path)
         confg = self.read_confg(confg_path)

@@ -106,8 +106,6 @@ class SearchPanel(wx.Panel,listmix.ColumnSorterMixin):
         self.sm_up = self.il.Add(images.SmallUpArrow.GetBitmap())
         self.sm_dn = self.il.Add(images.SmallDnArrow.GetBitmap())
 
-        #“查看全文”按钮
-        self.view = wx.Button(self, label="see all")
         self.list = Mod_ListCtrl(self, wx.NewId() ,                            #搜索结果显示栏
                                  style=wx.LC_REPORT 
                                  #| wx.BORDER_SUNKEN
@@ -125,17 +123,9 @@ class SearchPanel(wx.Panel,listmix.ColumnSorterMixin):
         self.PopulateList(most_recent)   #初始化列表
 
         self.itemDataMap = accountdata
-        #账户操作按钮（动态合成）
-        box = wx.StaticBox(self, -1, "copy")
-        test_button = wx.Button(self, label="password")
-    
-        #create LayOut
-        self.bsizer = wx.StaticBoxSizer(box,wx.HORIZONTAL)
-        self.bsizer.Add(test_button, 0, wx.TOP|wx.LEFT,10) 
-        
+
         hsizer= wx.BoxSizer(wx.HORIZONTAL)
         hsizer.Add(self.bsizer, 1, wx.EXPAND|wx.ALL, 25)
-        hsizer.Add(self.view)
         
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(self.search,1)
@@ -143,21 +133,9 @@ class SearchPanel(wx.Panel,listmix.ColumnSorterMixin):
         sizer.Add(hsizer)
         
         self.SetSizer(sizer)
-        #关联事件
-        self.Bind(wx.EVT_BUTTON, self.OnView, self.view)
         #self.Bind(wx.EVT_BUTTON, self.OnButtonClicked, self.bsizer)#账户按钮操作区点击
         self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.OnItemSelected, self.list)   #当列表中的选项被选中的时候
         self.Bind(wx.EVT_TEXT_ENTER, self.OnDoSearch, self.search)#搜索动作
-
-
-    def OnView(self, event):
-        #1.判断是否选中
-        selected = self.list.GetLastSelected()
-        #2.如果有效则转到另一Page
-        if selected:
-            text = self.list.GetItemText(selected)
-            self.parent.turn_page(text)
-
 
     def OnButtonClicked(self, event):
         #1.获得相应的数据
